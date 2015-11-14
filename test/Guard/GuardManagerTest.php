@@ -5,7 +5,7 @@ namespace FSM\Guard;
 use FSM\Container\ContainerInterface;
 
 /**
- * Guard factory PHP Unit tests
+ * Guard manager PHP Unit tests
  *
  * @package FSM\Guard
  */

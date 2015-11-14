@@ -3,7 +3,7 @@
 namespace FSM\Guard;
 
 /**
- * Guard factory interface
+ * Guard manager interface
  *
  * @package FSM\Guard
  */
