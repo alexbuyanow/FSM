@@ -9,7 +9,7 @@ use FSM\Container\ContainerInterface;
  *
  * @package FSM\Guard
  */
-class GuardFactoryTest extends \PHPUnit_Framework_TestCase
+class GuardManagerTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetGuard()
     {
@@ -26,7 +26,7 @@ class GuardFactoryTest extends \PHPUnit_Framework_TestCase
             ->willReturn($guardMock);
 
         /** @var ContainerInterface $containerMock */
-        $factory    = new GuardFactory($containerMock);
+        $factory    = new GuardManager($containerMock);
         $guard      = $factory->getGuard('some_guard');
 
         $this->assertInstanceOf('FSM\Guard\GuardInterface', $guard);
@@ -45,7 +45,7 @@ class GuardFactoryTest extends \PHPUnit_Framework_TestCase
             ->willThrowException(new \InvalidArgumentException());
 
         /** @var ContainerInterface $containerMock */
-        $factory = new GuardFactory($containerMock);
+        $factory = new GuardManager($containerMock);
 
         $this->setExpectedException(__NAMESPACE__ . '\Exception\GuardNotFoundException');
         $factory->getGuard('some_guard');
@@ -64,7 +64,7 @@ class GuardFactoryTest extends \PHPUnit_Framework_TestCase
             ->willReturn(new \ArrayObject());
 
         /** @var ContainerInterface $containerMock */
-        $factory = new GuardFactory($containerMock);
+        $factory = new GuardManager($containerMock);
 
         $this->setExpectedException(__NAMESPACE__ . '\Exception\InvalidGuardException');
         $factory->getGuard('some_guard');

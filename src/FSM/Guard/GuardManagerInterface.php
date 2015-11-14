@@ -7,7 +7,7 @@ namespace FSM\Guard;
  *
  * @package FSM\Guard
  */
-interface GuardFactoryInterface
+interface GuardManagerInterface
 {
     /**
      * Gets named guard object

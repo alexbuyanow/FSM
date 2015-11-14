@@ -5,11 +5,11 @@ namespace FSM\Guard;
 use FSM\Container\ContainerInterface;
 
 /**
- * Guard factory
+ * Guards manager
  *
  * @package FSM\Guard
  */
-class GuardFactory implements GuardFactoryInterface
+class GuardManager implements GuardManagerInterface
 {
     /** @var string  */
     private $methodCallable = 'isSatisfied';
