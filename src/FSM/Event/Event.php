@@ -34,7 +34,7 @@ class Event extends PrototypeEvent implements EventInterface
      * @param MachineInterface $machine
      * @param ContextInterface $context
      * @param TransitionInterface|null $transition
-     * @param null $signal
+     * @param string|null $signal
      * @param array $params
      */
     public function __construct(
