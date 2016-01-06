@@ -4,18 +4,25 @@ namespace FSM\Event;
 
 use FSM\ContextInterface;
 use FSM\Machine\MachineInterface;
+use FSM\Transition\TransitionInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class EventFactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetEvent()
     {
-        $factory     = new EventFactory($this->getEventDispatcherMock());
-        $machineMock = $this->getMachineMock();
-        $contextMock = $this->getContextMock();
-        $event       = $factory->getEvent($machineMock, $contextMock);
+        $factory        = new EventFactory($this->getEventDispatcherMock());
+        $machineMock    = $this->getMachineMock();
+        $contextMock    = $this->getContextMock();
+        $transitionMock = $this->getTransitionMock();
+        $event          = $factory->getEvent($machineMock, $contextMock, $transitionMock, 'test_signal');
 
         $this->assertInstanceOf('FSM\Event\EventInterface', $event);
+        $this->assertInstanceOf('FSM\Machine\MachineInterface', $event->getMachine());
+        $this->assertInstanceOf('FSM\ContextInterface', $event->getContext());
+        $this->assertInstanceOf('FSM\Transition\TransitionInterface', $event->getTransition());
+        $this->assertEquals('test_signal', $event->getSignal());
+        $this->assertInternalType('array', $event->getParams());
     }
 
     public function testDispatchEvent()
@@ -66,6 +73,18 @@ class EventFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $mock = $this->getMock(
             'FSM\ContextInterface'
+        );
+
+        return $mock;
+    }
+
+    /**
+     * @return TransitionInterface
+     */
+    private function getTransitionMock()
+    {
+        $mock = $this->getMock(
+            'FSM\Transition\TransitionInterface'
         );
 
         return $mock;
