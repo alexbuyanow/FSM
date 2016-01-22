@@ -62,7 +62,7 @@ class DefaultResolver implements ResolverInterface
      * Get machine config name for this context
      *
      * @param ContextInterface $context
-     * @return array
+     * @return string
      */
     public function getConfigName(ContextInterface $context)
     {

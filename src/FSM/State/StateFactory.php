@@ -12,7 +12,7 @@ class StateFactory implements StateFactoryInterface
     /**
      * Keys in single state config
      */
-    const CONFIG_KEY_TYPE           = 'type';
+    const CONFIG_KEY_TYPE = 'type';
 
     /**
      * Available state types
@@ -21,6 +21,7 @@ class StateFactory implements StateFactoryInterface
      */
     private $stateTypes = [
         StateInterface::TYPE_REGULAR        => 'StateRegular',
+        StateInterface::TYPE_SUB_MACHINE    => 'StateSubMachine',
     ];
 
     /** @var  array */
@@ -32,7 +33,7 @@ class StateFactory implements StateFactoryInterface
 
     public function __construct(array $config)
     {
-        $this->config               = $config;
+        $this->config = $config;
     }
 
     /**

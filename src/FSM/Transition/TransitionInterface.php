@@ -49,7 +49,7 @@ interface TransitionInterface
     /**
      * Transition guard getter
      *
-     * @return string|null
+     * @return callable|null
      */
     public function getGuard();
 

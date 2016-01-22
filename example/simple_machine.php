@@ -26,12 +26,16 @@ $machine = $machineFactory->getMachineFactory($context)->getMachine();
 
 echo $context->getContextState(), $cr;
 
-foreach (['edit', 'activate', /*'deactivate', */'delete'] as $signal) {
+foreach(['edit', 'activate', /*'deactivate', */'delete'] as $signal)
+{
     echo $signal, '-------------', $cr;
-    try {
+    try
+    {
         $machine->signal($context, $signal);
         echo $context->getContextState(), $cr;
-    } catch (\Exception $e) {
+    }
+    catch(\Exception $e)
+    {
         echo $e->getMessage(), $cr;
         echo $context->getContextState(), $cr;
     }

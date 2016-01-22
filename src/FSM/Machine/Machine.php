@@ -79,7 +79,7 @@ class Machine implements MachineInterface
 
         if(isset($this->performsRegistry[$contextId]))
         {
-            return ;
+            return;
         }
 
         $this->performsRegistry[$contextId] = $contextId;

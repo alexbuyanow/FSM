@@ -18,7 +18,8 @@ class StateRegular implements StateInterface
      */
     public function __construct($name, $type = self::TYPE_REGULAR)
     {
-        if ($type != self::TYPE_REGULAR) {
+        if($type != self::TYPE_REGULAR)
+        {
             $message = sprintf('Incorrect state type %s for this class. Must be %s', $type, self::TYPE_REGULAR);
             throw new Exception\InvalidStateConfig($message);
         }

@@ -20,7 +20,7 @@ class Transition implements TransitionInterface
     /** @var string */
     private $signal;
 
-    /** @var string */
+    /** @var callable */
     private $guard;
 
 
@@ -28,7 +28,7 @@ class Transition implements TransitionInterface
      * @param StateInterface $stateFrom
      * @param StateInterface $stateTo
      * @param string|null    $signal
-     * @param string|null    $guard
+     * @param callable|null  $guard
      */
     public function __construct(StateInterface $stateFrom, StateInterface $stateTo, $signal = null, $guard = null)
     {
@@ -59,9 +59,9 @@ class Transition implements TransitionInterface
     }
 
     /**
-     * Is transition direct (without signal)
+     * Signal name getter
      *
-     * @return boolean
+     * @return string
      */
     public function getSignal()
     {
@@ -69,7 +69,7 @@ class Transition implements TransitionInterface
     }
 
     /**
-     * Signal name getter
+     * Is transition direct (without signal)
      *
      * @return string|null
      */
@@ -91,7 +91,7 @@ class Transition implements TransitionInterface
     /**
      * Transition guard getter
      *
-     * @return string|null
+     * @return callable|null
      */
     public function getGuard()
     {
