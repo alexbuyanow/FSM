@@ -14,9 +14,12 @@ use FSM\Resolver\ResolverInterface;
  */
 class FSMLocator
 {
-    private $configKeyOptions = 'options';
-    private $configKeyResolver = 'resolver';
-    private $configKeyMachines = 'machines';
+    const CONFIG_KEY_OPTIONS    = 'options';
+    const CONFIG_KEY_MACHINES   = 'machines';
+
+    const OPTIONS_KEY_RESOLVER  = 'resolver';
+    const OPTIONS_KEY_STRICT    = 'strict';
+
 
     /** @var array */
     private $options = [];
@@ -58,8 +61,10 @@ class FSMLocator
     {
         $machineName = $this->resolver->getConfigName($context);
 
-        if (!array_key_exists($machineName, $this->factories)) {
-            if (!$this->resolver->isContained($context)) {
+        if(!array_key_exists($machineName, $this->factories))
+        {
+            if(!$this->resolver->isContained($context))
+            {
                 $message = sprintf('Machine for context %s is not describe in config', get_class($context));
                 throw new Exception\UnknownContextException($message);
             }
@@ -90,17 +95,19 @@ class FSMLocator
      */
     private function getOptions(array $config)
     {
-        if (!array_key_exists($this->configKeyOptions, $config)) {
+        if(!array_key_exists(static::CONFIG_KEY_OPTIONS, $config))
+        {
             $message = 'FSM options section is not defined in config';
             throw new Exception\InvalidConfigException($message);
         }
 
-        if (!is_array($config[$this->configKeyOptions]) || empty($config[$this->configKeyOptions])) {
+        if(!is_array($config[static::CONFIG_KEY_OPTIONS]) || empty($config[static::CONFIG_KEY_OPTIONS]))
+        {
             $message = 'FSM options section is incorrect defined or empty in config';
             throw new Exception\InvalidConfigException($message);
         }
 
-        return $config[$this->configKeyOptions];
+        return $config[static::CONFIG_KEY_OPTIONS];
     }
 
     /**
@@ -112,17 +119,19 @@ class FSMLocator
      */
     private function getMachinesConfig(array $config)
     {
-        if (!array_key_exists($this->configKeyMachines, $config)) {
+        if(!array_key_exists(static::CONFIG_KEY_MACHINES, $config))
+        {
             $message = 'Machines config section is not defined in config';
             throw new Exception\InvalidConfigException($message);
         }
 
-        if (!is_array($config[$this->configKeyMachines]) || empty($config[$this->configKeyMachines])) {
+        if(!is_array($config[static::CONFIG_KEY_MACHINES]) || empty($config[static::CONFIG_KEY_MACHINES]))
+        {
             $message = 'Machines config section is incorrect defined or empty in config';
             throw new Exception\InvalidConfigException($message);
         }
 
-        return $config[$this->configKeyMachines];
+        return $config[static::CONFIG_KEY_MACHINES];
     }
 
     /**
@@ -133,13 +142,13 @@ class FSMLocator
      */
     private function getResolver()
     {
-        if(!(array_key_exists($this->configKeyResolver, $this->options) && $this->options[$this->configKeyResolver]))
+        if(!(array_key_exists(static::OPTIONS_KEY_RESOLVER, $this->options) && $this->options[static::OPTIONS_KEY_RESOLVER]))
         {
             $message = 'Resolver class name is not defined in options';
             throw new Exception\InvalidResolverException($message);
         }
 
-        $resolverClassName = $this->options[$this->configKeyResolver];
+        $resolverClassName = $this->options[static::OPTIONS_KEY_RESOLVER];
 
         if(!class_exists($resolverClassName))
         {

@@ -1,12 +1,14 @@
 <?php
 
+use FSM\FSMLocator;
+
 return [
-    'options' => [
-        'resolver' => 'FSM\Resolver\DefaultResolver',
-        'strict' => FSM\Machine\Machine::STRICT_ALL,
+    FSMLocator::CONFIG_KEY_OPTIONS => [
+        FSMLocator::OPTIONS_KEY_RESOLVER  => FSM\Resolver\DefaultResolver::class,
+        FSMLocator::OPTIONS_KEY_STRICT    => FSM\Machine\Machine::STRICT_ALL,
     ],
 
-    'machines' => [
+    FSMLocator::CONFIG_KEY_MACHINES => [
         'Context' => [
             FSM\Machine\MachineFactory::CONFIG_KEY_STATES => [
                 'created' => ['type' => $typeRegular],

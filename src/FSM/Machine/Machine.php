@@ -5,6 +5,7 @@ namespace FSM\Machine;
 use FSM\ContextInterface;
 use FSM\Event\Event;
 use FSM\Event\EventFactoryInterface;
+use FSM\FSMLocator;
 use FSM\Queue\QueueInterface;
 use FSM\Queue\SimpleQueue;
 use FSM\State\StateFactoryInterface;
@@ -222,7 +223,10 @@ class Machine implements MachineInterface
             return null;
         }
 
-        if(($this->options['strict'] & self::STRICT_SIMULTANEOUS_SIGNAL_TRANSITIONS) && count($transitions) > 1)
+        if(
+            ($this->options[FSMLocator::OPTIONS_KEY_STRICT] & self::STRICT_SIMULTANEOUS_SIGNAL_TRANSITIONS) &&
+            count($transitions) > 1
+        )
         {
             $signalText = sprintf('by signal "%s"', $signal);
             $message = sprintf(
@@ -303,7 +307,7 @@ class Machine implements MachineInterface
 
         if(empty($transition))
         {
-            if($this->options['strict'] & self::STRICT_NONEXISTENT_SIGNAL)
+            if($this->options[FSMLocator::OPTIONS_KEY_STRICT] & self::STRICT_NONEXISTENT_SIGNAL)
             {
                 $message = sprintf(
                     'Transition from state "%s" by signal "%s" not found for machine "%s"',

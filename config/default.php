@@ -4,20 +4,22 @@
  * Should be merged with outer FSM config
  */
 
+use FSM\FSMLocator;
+
 return [
 
     /** Module options section */
-    'options'           => [
+    FSMLocator::CONFIG_KEY_OPTIONS      => [
 
         /** Machine config resolver class option */
-        'resolver'          => 'FSM\Resolver\DefaultResolver',
+        FSMLocator::OPTIONS_KEY_RESOLVER    => FSM\Resolver\DefaultResolver::class,
 
         /** Machine strict mode. See FSM\Machine\MachineInterface */
-        'strict'            => FSM\Machine\Machine::STRICT_NONE,
+        FSMLocator::OPTIONS_KEY_STRICT      => FSM\Machine\Machine::STRICT_NONE,
     ],
 
     /** Machines config section */
-    'machines'          => [],
+    FSMLocator::CONFIG_KEY_MACHINES     => [],
 
 ];
 

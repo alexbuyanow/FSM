@@ -5,6 +5,7 @@ namespace FSM\Machine;
 use FSM\ContextInterface;
 use FSM\Event\EventFactoryInterface;
 use FSM\Event\EventInterface;
+use FSM\FSMLocator;
 use FSM\State\StateFactoryInterface;
 use FSM\State\StateInterface;
 use FSM\Transition\TransitionInterface;
@@ -40,7 +41,7 @@ class MachineTest extends \PHPUnit_Framework_TestCase
             $transitionTableMock,
             $stateFactoryMock,
             $this->getEventFactoryMock(),
-            ['strict' => false]
+            [FSMLocator::OPTIONS_KEY_STRICT => false]
         );
 
         $test = $machine->isSignalAllowed($this->getContextMock(), 'test_signal');
@@ -74,7 +75,7 @@ class MachineTest extends \PHPUnit_Framework_TestCase
             $transitionTableMock,
             $stateFactoryMock,
             $this->getEventFactoryMock(),
-            ['strict' => false]
+            [FSMLocator::OPTIONS_KEY_STRICT => false]
         );
 
         $this->assertTrue($machine->isSignalAllowed($this->getContextMock(), 'test_signal'));
@@ -84,7 +85,7 @@ class MachineTest extends \PHPUnit_Framework_TestCase
             $transitionTableMock,
             $stateFactoryMock,
             $this->getEventFactoryMock(),
-            ['strict' => Machine::STRICT_SIMULTANEOUS_SIGNAL_TRANSITIONS]
+            [FSMLocator::OPTIONS_KEY_STRICT => Machine::STRICT_SIMULTANEOUS_SIGNAL_TRANSITIONS]
         );
 
         $this->setExpectedException(__NAMESPACE__ . '\Exception\StrictException');
@@ -121,7 +122,7 @@ class MachineTest extends \PHPUnit_Framework_TestCase
             $transitionTableMock,
             $stateFactoryMock,
             $this->getEventFactoryMock(),
-            ['strict' => false]
+            [FSMLocator::OPTIONS_KEY_STRICT => false]
         );
 
         $machine->refresh($this->getContextMock());
@@ -157,7 +158,7 @@ class MachineTest extends \PHPUnit_Framework_TestCase
             $transitionTableMock,
             $stateFactoryMock,
             $this->getEventFactoryMock(),
-            ['strict' => false]
+            [FSMLocator::OPTIONS_KEY_STRICT => false]
         );
 
         $machine->signal($this->getContextMock(), 'test_signal');
