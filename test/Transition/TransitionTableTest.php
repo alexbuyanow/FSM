@@ -8,9 +8,9 @@ class TransitionTableTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstructorEmptyConfig()
     {
-        $transitionFactoryMock = $this->getMock('FSM\Transition\TransitionFactoryInterface');
+        $transitionFactoryMock = $this->getMock(TransitionFactoryInterface::class);
 
-        $this->setExpectedException(__NAMESPACE__ . '\Exception\InvalidTransitionConfig');
+        $this->setExpectedException(Exception\InvalidTransitionConfig::class);
 
         /** @var TransitionFactoryInterface $transitionFactoryMock */
         new TransitionTable($transitionFactoryMock, []);
@@ -19,7 +19,7 @@ class TransitionTableTest extends \PHPUnit_Framework_TestCase
     public function testFindTransitions()
     {
         $stateMock = $this->getMock(
-            'FSM\State\StateInterface',
+            StateInterface::class,
             ['isIdentical', 'getName', 'getType']
         );
         $stateMock
@@ -28,7 +28,7 @@ class TransitionTableTest extends \PHPUnit_Framework_TestCase
             ->willReturn(true);
 
         $transitionMock = $this->getMock(
-            'FSM\Transition\TransitionInterface',
+            TransitionInterface::class,
             ['getStateFrom', 'getStateTo', 'getSignal', 'getGuard', 'isDirect', 'hasGuard']
         );
         $transitionMock
@@ -41,7 +41,7 @@ class TransitionTableTest extends \PHPUnit_Framework_TestCase
             ->willReturn('test_signal');
 
         $transitionFactoryMock = $this->getMock(
-            'FSM\Transition\TransitionFactoryInterface',
+            TransitionFactoryInterface::class,
             ['getTransition']
         );
         $transitionFactoryMock
@@ -55,7 +55,7 @@ class TransitionTableTest extends \PHPUnit_Framework_TestCase
         $transitions     = $transitionTable->findTransitions($stateMock, 'test_signal');
 
         $this->assertEquals(1, count($transitions));
-        $this->assertContainsOnlyInstancesOf('FSM\Transition\TransitionInterface', $transitions);
+        $this->assertContainsOnlyInstancesOf(TransitionInterface::class, $transitions);
 
     }
 }

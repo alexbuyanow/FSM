@@ -49,7 +49,7 @@ class DefaultResolverTest extends \PHPUnit_Framework_TestCase
     {
         $resolver = new DefaultResolver($this->config);
 
-        $this->setExpectedException(__NAMESPACE__ . '\Exception\ConfigNotFoundException');
+        $this->setExpectedException(Exception\ConfigNotFoundException::class);
         $resolver->getConfig($this->contextMockNotContained);
     }
 
@@ -68,14 +68,14 @@ class DefaultResolverTest extends \PHPUnit_Framework_TestCase
         ];
 
         $this->contextMockContained = $this->getMock(
-            'FSM\ContextInterface',
+            ContextInterface::class,
             [],
             [],
             'TestContext'
         );
 
         $this->contextMockNotContained = $this->getMock(
-            'FSM\ContextInterface',
+            ContextInterface::class,
             [],
             [],
             'AnotherContext'

@@ -88,7 +88,7 @@ class MachineTest extends \PHPUnit_Framework_TestCase
             [FSMLocator::OPTIONS_KEY_STRICT => Machine::STRICT_SIMULTANEOUS_SIGNAL_TRANSITIONS]
         );
 
-        $this->setExpectedException(__NAMESPACE__ . '\Exception\StrictException');
+        $this->setExpectedException(Exception\StrictException::class);
         $this->assertTrue($machine->isSignalAllowed($this->getContextMock(), 'test_signal'));
     }
 
@@ -170,7 +170,7 @@ class MachineTest extends \PHPUnit_Framework_TestCase
     private function getTransitionTableMock()
     {
         $mock = $this->getMock(
-            'FSM\Transition\TransitionTableInterface',
+            TransitionTableInterface::class,
             ['findTransitions']
         );
 
@@ -183,7 +183,7 @@ class MachineTest extends \PHPUnit_Framework_TestCase
     private function getStateFactoryMock()
     {
         $mock = $this->getMock(
-            'FSM\State\StateFactoryInterface',
+            StateFactoryInterface::class,
             ['getState']
         );
 
@@ -196,7 +196,7 @@ class MachineTest extends \PHPUnit_Framework_TestCase
     private function getEventFactoryMock()
     {
         $mock = $this->getMock(
-            'FSM\Event\EventFactoryInterface',
+            EventFactoryInterface::class,
             ['getEvent', 'dispatchEvent']
         );
 
@@ -214,7 +214,7 @@ class MachineTest extends \PHPUnit_Framework_TestCase
     private function getContextMock()
     {
         $mock = $this->getMock(
-            'FSM\ContextInterface',
+            ContextInterface::class,
             ['getContextUid', 'getContextState', 'setContextState']
         );
 
@@ -232,7 +232,7 @@ class MachineTest extends \PHPUnit_Framework_TestCase
     private function getStateMock()
     {
         $mock = $this->getMock(
-            'FSM\State\StateInterface',
+            StateInterface::class,
             ['getName', 'getType', 'isIdentical']
         );
 
@@ -245,7 +245,7 @@ class MachineTest extends \PHPUnit_Framework_TestCase
     private function getAnotherStateMock()
     {
         $mock = $this->getMock(
-            'FSM\State\StateInterface',
+            StateInterface::class,
             ['getName', 'getType', 'isIdentical']
         );
 
@@ -258,7 +258,7 @@ class MachineTest extends \PHPUnit_Framework_TestCase
     private function getTransitionMock()
     {
         $mock = $this->getMock(
-            'FSM\Transition\TransitionInterface',
+            TransitionInterface::class,
             ['getStateFrom', 'getStateTo', 'isDirect', 'getSignal', 'hasGuard', 'getGuard']
         );
 
@@ -276,7 +276,7 @@ class MachineTest extends \PHPUnit_Framework_TestCase
     private function getEventMock()
     {
         $mock = $this->getMock(
-            'FSM\Event\EventInterface'
+            EventInterface::class
         );
 
         return $mock;

@@ -10,8 +10,8 @@ namespace FSM\State;
 class StateFactoryTest extends \PHPUnit_Framework_TestCase
 {
     private $config = [
-        'state_regular'         => [StateFactory::CONFIG_KEY_TYPE => StateInterface::TYPE_REGULAR],
-        'state_untyped'         => [],
+        'state_regular'     => [StateFactory::CONFIG_KEY_TYPE => StateInterface::TYPE_REGULAR],
+        'state_untyped'     => [],
     ];
 
     /** @var  StateFactoryInterface */
@@ -23,21 +23,21 @@ class StateFactoryTest extends \PHPUnit_Framework_TestCase
         $stateName = 'state_regular';
         $state     = $this->factory->getState($stateName);
 
-        $this->assertInstanceOf(__NAMESPACE__ . '\StateInterface', $state);
+        $this->assertInstanceOf(StateInterface::class, $state);
         $this->assertEquals($stateName, $state->getName());
         $this->assertEquals(StateInterface::TYPE_REGULAR, $state->getType());
     }
 
     public function testGetStateNotFound()
     {
-        $this->setExpectedException(__NAMESPACE__ . '\Exception\StateNotFound');
+        $this->setExpectedException(Exception\StateNotFound::class);
 
         $this->factory->getState('another_state');
     }
 
     public function testGetStateUntyped()
     {
-        $this->setExpectedException(__NAMESPACE__ . '\Exception\InvalidStateConfig');
+        $this->setExpectedException(Exception\InvalidStateConfig::class);
 
         $this->factory->getState('state_untyped');
     }
@@ -45,7 +45,7 @@ class StateFactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->factory      = new StateFactory($this->config);
+        $this->factory = new StateFactory($this->config);
     }
 
     protected function tearDown()

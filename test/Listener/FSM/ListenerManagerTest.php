@@ -13,10 +13,10 @@ class ListenerManagerTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetListener()
     {
-        $listenerMock = $this->getMock('FSM\Listener\ListenerInterface');
+        $listenerMock = $this->getMock(ListenerInterface::class);
 
         $containerMock = $this->getMock(
-            'FSM\Container\ContainerInterface',
+            ContainerInterface::class,
             ['get']
         );
         $containerMock
@@ -29,15 +29,15 @@ class ListenerManagerTest extends \PHPUnit_Framework_TestCase
         $manager    = new ListenerManager($containerMock);
         $listener   = $manager->getListener('listener');
 
-        $this->assertInstanceOf('FSM\Listener\ListenerInterface', $listener);
+        $this->assertInstanceOf(ListenerInterface::class, $listener);
     }
 
     public function testGetListenerCallable()
     {
-        $listenerMock = $this->getMock('FSM\Listener\ListenerInterface');
+        $listenerMock = $this->getMock(ListenerInterface::class);
 
         $containerMock = $this->getMock(
-            'FSM\Container\ContainerInterface',
+            ContainerInterface::class,
             ['get']
         );
         $containerMock
@@ -55,7 +55,7 @@ class ListenerManagerTest extends \PHPUnit_Framework_TestCase
     public function testGetListenerNotFound()
     {
         $containerMock = $this->getMock(
-            'FSM\Container\ContainerInterface',
+            ContainerInterface::class,
             ['get']
         );
         $containerMock
@@ -67,14 +67,14 @@ class ListenerManagerTest extends \PHPUnit_Framework_TestCase
         /** @var ContainerInterface $containerMock */
         $manager    = new ListenerManager($containerMock);
 
-        $this->setExpectedException(__NAMESPACE__ . '\Exception\ListenerNotFoundException');
+        $this->setExpectedException(Exception\ListenerNotFoundException::class);
         $manager->getListener('listener');
     }
 
     public function testGetListenerNull()
     {
         $containerMock = $this->getMock(
-            'FSM\Container\ContainerInterface',
+            ContainerInterface::class,
             ['get']
         );
         $containerMock
@@ -86,14 +86,14 @@ class ListenerManagerTest extends \PHPUnit_Framework_TestCase
         /** @var ContainerInterface $containerMock */
         $manager    = new ListenerManager($containerMock);
 
-        $this->setExpectedException(__NAMESPACE__ . '\Exception\ListenerNotFoundException');
+        $this->setExpectedException(Exception\ListenerNotFoundException::class);
         $manager->getListener('listener');
     }
 
     public function testGetListenerNotListener()
     {
         $containerMock = $this->getMock(
-            'FSM\Container\ContainerInterface',
+            ContainerInterface::class,
             ['get']
         );
         $containerMock
@@ -105,7 +105,7 @@ class ListenerManagerTest extends \PHPUnit_Framework_TestCase
         /** @var ContainerInterface $containerMock */
         $manager    = new ListenerManager($containerMock);
 
-        $this->setExpectedException(__NAMESPACE__ . '\Exception\InvalidListenerException');
+        $this->setExpectedException(Exception\InvalidListenerException::class);
         $manager->getListener('listener');
     }
 }

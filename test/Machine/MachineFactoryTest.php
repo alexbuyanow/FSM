@@ -22,7 +22,7 @@ class MachineFactoryTest extends \PHPUnit_Framework_TestCase
         );
 
         $machine = $factory->getMachine();
-        $this->assertInstanceOf('FSM\Machine\Machine', $machine);
+        $this->assertInstanceOf(MachineInterface::class, $machine);
     }
 
     public function testGetMachineConfigNotContainsStatesSection()
@@ -30,7 +30,7 @@ class MachineFactoryTest extends \PHPUnit_Framework_TestCase
         $config = $this->getConfigArray();
         unset($config[MachineFactory::CONFIG_KEY_STATES]);
 
-        $this->setExpectedException(__NAMESPACE__ . '\Exception\InvalidConfigException');
+        $this->setExpectedException(Exception\InvalidConfigException::class);
 
         new MachineFactory(
             'test_machine',
@@ -45,7 +45,7 @@ class MachineFactoryTest extends \PHPUnit_Framework_TestCase
         $config = $this->getConfigArray();
         unset($config[MachineFactory::CONFIG_KEY_TRANSITIONS]);
 
-        $this->setExpectedException(__NAMESPACE__ . '\Exception\InvalidConfigException');
+        $this->setExpectedException(Exception\InvalidConfigException::class);
 
         new MachineFactory(
             'test_machine',
@@ -60,7 +60,7 @@ class MachineFactoryTest extends \PHPUnit_Framework_TestCase
         $config = $this->getConfigArray();
         unset($config[MachineFactory::CONFIG_KEY_LISTENERS]);
 
-        $this->setExpectedException(__NAMESPACE__ . '\Exception\InvalidConfigException');
+        $this->setExpectedException(Exception\InvalidConfigException::class);
 
         new MachineFactory(
             'test_machine',
@@ -95,6 +95,6 @@ class MachineFactoryTest extends \PHPUnit_Framework_TestCase
      */
     private function getContainerMock()
     {
-        return $this->getMock('FSM\Container\ContainerInterface');
+        return $this->getMock(ContainerInterface::class);
     }
 }

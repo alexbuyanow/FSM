@@ -13,10 +13,10 @@ class GuardManagerTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetGuard()
     {
-        $guardMock = $this->getMock('FSM\Guard\GuardInterface');
+        $guardMock = $this->getMock(GuardInterface::class);
 
         $containerMock = $this->getMock(
-            'FSM\Container\ContainerInterface',
+            ContainerInterface::class,
             ['get']
         );
         $containerMock
@@ -29,15 +29,15 @@ class GuardManagerTest extends \PHPUnit_Framework_TestCase
         $manager = new GuardManager($containerMock);
         $guard      = $manager->getGuard('some_guard');
 
-        $this->assertInstanceOf('FSM\Guard\GuardInterface', $guard);
+        $this->assertInstanceOf(GuardInterface::class, $guard);
     }
 
     public function testGetGuardCallable()
     {
-        $guardMock = $this->getMock('FSM\Guard\GuardInterface');
+        $guardMock = $this->getMock(GuardInterface::class);
 
         $containerMock = $this->getMock(
-            'FSM\Container\ContainerInterface',
+            ContainerInterface::class,
             ['get']
         );
         $containerMock
@@ -55,7 +55,7 @@ class GuardManagerTest extends \PHPUnit_Framework_TestCase
     public function testGetGuardIsNotInDI()
     {
         $containerMock = $this->getMock(
-            'FSM\Container\ContainerInterface',
+            ContainerInterface::class,
             ['get']
         );
         $containerMock
@@ -67,14 +67,14 @@ class GuardManagerTest extends \PHPUnit_Framework_TestCase
         /** @var ContainerInterface $containerMock */
         $manager = new GuardManager($containerMock);
 
-        $this->setExpectedException(__NAMESPACE__ . '\Exception\GuardNotFoundException');
+        $this->setExpectedException(Exception\GuardNotFoundException::class);
         $manager->getGuard('some_guard');
     }
 
     public function testGetGuardIsNotGuardInterface()
     {
         $containerMock = $this->getMock(
-            'FSM\Container\ContainerInterface',
+            ContainerInterface::class,
             ['get']
         );
         $containerMock
@@ -86,7 +86,7 @@ class GuardManagerTest extends \PHPUnit_Framework_TestCase
         /** @var ContainerInterface $containerMock */
         $manager = new GuardManager($containerMock);
 
-        $this->setExpectedException(__NAMESPACE__ . '\Exception\InvalidGuardException');
+        $this->setExpectedException(Exception\InvalidGuardException::class);
         $manager->getGuard('some_guard');
     }
 }

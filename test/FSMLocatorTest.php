@@ -18,7 +18,7 @@ class FSMLocatorTest extends \PHPUnit_Framework_TestCase
         $locator = new FSMLocator($this->getConfig(), $this->getContainerMock());
 
         $this->assertInstanceOf(
-            'FSM\Machine\MachineFactory',
+            MachineFactoryInterface::class,
             $locator->getMachineFactory($this->getContextMock())
         );
     }
@@ -29,7 +29,7 @@ class FSMLocatorTest extends \PHPUnit_Framework_TestCase
     private function getContextMock()
     {
         $mock = $this->getMock(
-            'FSM\ContextInterface',
+            ContextInterface::class,
             ['getContextUid', 'getContextState', 'setContextState'],
             [],
             'ContextClass'
@@ -49,7 +49,7 @@ class FSMLocatorTest extends \PHPUnit_Framework_TestCase
     private function getContainerMock()
     {
         $mock = $this->getMock(
-            'FSM\Container\ContainerInterface',
+            ContainerInterface::class,
             ['get']
         );
 

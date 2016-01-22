@@ -22,11 +22,11 @@ class TransitionFactoryTest extends \PHPUnit_Framework_TestCase
         ];
 
         $stateMock = $this->getMock(
-            'FSM\State\StateInterface',
+            StateInterface::class,
             ['getName', 'getType', 'isIdentical']
         );
         $stateFactoryMock = $this->getMock(
-            'FSM\State\StateFactoryInterface',
+            StateFactoryInterface::class,
             ['getState'],
             [$this->getStateConfig()]
         );
@@ -35,16 +35,16 @@ class TransitionFactoryTest extends \PHPUnit_Framework_TestCase
             ->method('getState')
             ->willReturn($stateMock);
 
-        $guardFactoryMock = $this->getMock('FSM\Guard\GuardManagerInterface');
+        $guardFactoryMock = $this->getMock(GuardManagerInterface::class);
 
         /** @var StateFactoryInterface $stateFactoryMock */
         /** @var GuardManagerInterface $guardFactoryMock */
         $transitionFactory = new TransitionFactory($stateFactoryMock, $guardFactoryMock);
         $transition        = $transitionFactory->getTransition($config);
 
-        $this->assertInstanceOf('FSM\Transition\TransitionInterface', $transition);
-        $this->assertInstanceOf('FSM\State\StateInterface', $transition->getStateFrom());
-        $this->assertInstanceOf('FSM\State\StateInterface', $transition->getStateTo());
+        $this->assertInstanceOf(TransitionInterface::class, $transition);
+        $this->assertInstanceOf(StateInterface::class, $transition->getStateFrom());
+        $this->assertInstanceOf(StateInterface::class, $transition->getStateTo());
         $this->assertEquals('some_signal', $transition->getSignal());
     }
 
@@ -56,18 +56,18 @@ class TransitionFactoryTest extends \PHPUnit_Framework_TestCase
         ];
 
         $stateFactoryMock = $this->getMock(
-            'FSM\State\StateFactoryInterface',
+            StateFactoryInterface::class,
             ['getState'],
             [$this->getStateConfig()]
         );
 
-        $guardFactoryMock = $this->getMock('FSM\Guard\GuardManagerInterface');
+        $guardFactoryMock = $this->getMock(GuardManagerInterface::class);
 
         /** @var StateFactoryInterface $stateFactoryMock */
         /** @var GuardManagerInterface $guardFactoryMock */
         $transitionFactory = new TransitionFactory($stateFactoryMock, $guardFactoryMock);
 
-        $this->setExpectedException(__NAMESPACE__ . '\Exception\InvalidTransitionConfig');
+        $this->setExpectedException(Exception\InvalidTransitionConfig::class);
 
         $transitionFactory->getTransition($config);
     }
@@ -80,18 +80,18 @@ class TransitionFactoryTest extends \PHPUnit_Framework_TestCase
         ];
 
         $stateFactoryMock = $this->getMock(
-            'FSM\State\StateFactoryInterface',
+            StateFactoryInterface::class,
             ['getState'],
             [$this->getStateConfig()]
         );
 
-        $guardFactoryMock = $this->getMock('FSM\Guard\GuardManagerInterface');
+        $guardFactoryMock = $this->getMock(GuardManagerInterface::class);
 
         /** @var StateFactoryInterface $stateFactoryMock */
         /** @var GuardManagerInterface $guardFactoryMock */
         $transitionFactory = new TransitionFactory($stateFactoryMock, $guardFactoryMock);
 
-        $this->setExpectedException(__NAMESPACE__ . '\Exception\InvalidTransitionConfig');
+        $this->setExpectedException(Exception\InvalidTransitionConfig::class);
 
         $transitionFactory->getTransition($config);
     }

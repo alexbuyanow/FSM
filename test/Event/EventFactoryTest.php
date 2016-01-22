@@ -17,10 +17,10 @@ class EventFactoryTest extends \PHPUnit_Framework_TestCase
         $transitionMock = $this->getTransitionMock();
         $event          = $factory->getEvent($machineMock, $contextMock, $transitionMock, 'test_signal');
 
-        $this->assertInstanceOf('FSM\Event\EventInterface', $event);
-        $this->assertInstanceOf('FSM\Machine\MachineInterface', $event->getMachine());
-        $this->assertInstanceOf('FSM\ContextInterface', $event->getContext());
-        $this->assertInstanceOf('FSM\Transition\TransitionInterface', $event->getTransition());
+        $this->assertInstanceOf(EventInterface::class, $event);
+        $this->assertInstanceOf(MachineInterface::class, $event->getMachine());
+        $this->assertInstanceOf(ContextInterface::class, $event->getContext());
+        $this->assertInstanceOf(TransitionInterface::class, $event->getTransition());
         $this->assertEquals('test_signal', $event->getSignal());
         $this->assertInternalType('array', $event->getParams());
     }
@@ -28,7 +28,7 @@ class EventFactoryTest extends \PHPUnit_Framework_TestCase
     public function testDispatchEvent()
     {
         /** @var EventInterface $eventMock */
-        $eventMock      = $this->getMock('FSM\Event\Event', [], [], '', false);
+        $eventMock      = $this->getMock(Event::class, [], [], '', false);
         $dispatcherMock = $this->getEventDispatcherMock();
         $dispatcherMock
             ->expects($this->once())
@@ -47,7 +47,7 @@ class EventFactoryTest extends \PHPUnit_Framework_TestCase
     private function getEventDispatcherMock()
     {
         $mock = $this->getMock(
-            'Symfony\Component\EventDispatcher\EventDispatcherInterface',
+            EventDispatcherInterface::class,
             ['dispatch', 'addListener', 'addSubscriber', 'removeListener', 'getListeners', 'hasListeners', 'removeSubscriber']
         );
 
@@ -59,9 +59,7 @@ class EventFactoryTest extends \PHPUnit_Framework_TestCase
      */
     private function getMachineMock()
     {
-        $mock = $this->getMock(
-            'FSM\Machine\MachineInterface'
-        );
+        $mock = $this->getMock(MachineInterface::class);
 
         return $mock;
     }
@@ -71,9 +69,7 @@ class EventFactoryTest extends \PHPUnit_Framework_TestCase
      */
     private function getContextMock()
     {
-        $mock = $this->getMock(
-            'FSM\ContextInterface'
-        );
+        $mock = $this->getMock(ContextInterface::class);
 
         return $mock;
     }
@@ -83,9 +79,7 @@ class EventFactoryTest extends \PHPUnit_Framework_TestCase
      */
     private function getTransitionMock()
     {
-        $mock = $this->getMock(
-            'FSM\Transition\TransitionInterface'
-        );
+        $mock = $this->getMock(TransitionInterface::class);
 
         return $mock;
     }
