@@ -10,6 +10,11 @@ namespace FSM\State;
 interface StateFactoryInterface
 {
     /**
+     * Keys in single state config
+     */
+    const CONFIG_KEY_TYPE = 'type';
+
+    /**
      * State object getting
      *
      * @param string $name

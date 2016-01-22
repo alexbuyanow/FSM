@@ -10,11 +10,6 @@ namespace FSM\State;
 class StateFactory implements StateFactoryInterface
 {
     /**
-     * Keys in single state config
-     */
-    const CONFIG_KEY_TYPE = 'type';
-
-    /**
      * Available state types
      *
      * @var array

@@ -37,19 +37,19 @@ class TransitionFactory implements TransitionFactoryInterface
      */
     public function getTransition(array $config)
     {
-        if (!array_key_exists('from', $config)) {
+        if (!array_key_exists(static::CONFIG_KEY_STATE_FROM, $config)) {
             $message = 'Transition config has not required key "from"';
             throw new Exception\InvalidTransitionConfig($message);
         }
-        if (!array_key_exists('to', $config)) {
+        if (!array_key_exists(static::CONFIG_KEY_STATE_TO, $config)) {
             $message = 'Transition config has not required key "to"';
             throw new Exception\InvalidTransitionConfig($message);
         }
 
-        $from   = $this->stateFactory->getState($config['from']);
-        $to     = $this->stateFactory->getState($config['to']);
-        $signal = isset($config['signal']) ? $config['signal'] : null;
-        $guard  = isset($config['guard']) ? $this->guardFactory->getGuardCallable($config['guard']) : null;
+        $from   = $this->stateFactory->getState($config[static::CONFIG_KEY_STATE_FROM]);
+        $to     = $this->stateFactory->getState($config[static::CONFIG_KEY_STATE_TO]);
+        $signal = isset($config[static::CONFIG_KEY_SIGNAL]) ? $config[static::CONFIG_KEY_SIGNAL] : null;
+        $guard  = isset($config[static::CONFIG_KEY_GUARD]) ? $this->guardFactory->getGuardCallable($config[static::CONFIG_KEY_GUARD]) : null;
 
         return new Transition($from, $to, $signal, $guard);
     }

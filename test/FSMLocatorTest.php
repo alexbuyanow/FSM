@@ -4,7 +4,9 @@ namespace FSM;
 
 use FSM\Container\ContainerInterface;
 use FSM\Machine\MachineFactoryInterface;
+use FSM\State\StateFactory;
 use FSM\State\StateInterface;
+use FSM\Transition\TransitionFactory;
 
 /**
  * Machine factory locator test
@@ -13,11 +15,6 @@ class FSMLocatorTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetMachineFactory()
     {
-        $resolverMock = $this->getMock(
-            'FSM\Resolver\ResolverInterface',
-            ['isContained', 'getConfig', 'getConfigName']
-        );
-
         $locator = new FSMLocator($this->getConfig(), $this->getContainerMock());
 
         $this->assertInstanceOf(
@@ -65,19 +62,19 @@ class FSMLocatorTest extends \PHPUnit_Framework_TestCase
     private function getConfig()
     {
         return [
-            'machines' => [
+            FSMLocator::CONFIG_KEY_MACHINES => [
                 'ContextClass' => [
-                    MachineFactoryInterface::CONFIG_KEY_STATES =>           [
-                        'from'  => ['type' => StateInterface::TYPE_REGULAR],
-                        'to'    => ['type' => StateInterface::TYPE_REGULAR],
+                    MachineFactoryInterface::CONFIG_KEY_STATES      => [
+                        'from'  => [StateFactory::CONFIG_KEY_TYPE => StateInterface::TYPE_REGULAR],
+                        'to'    => [StateFactory::CONFIG_KEY_TYPE => StateInterface::TYPE_REGULAR],
                     ],
-                    MachineFactoryInterface::CONFIG_KEY_TRANSITIONS =>      [
+                    MachineFactoryInterface::CONFIG_KEY_TRANSITIONS => [
                         [
-                            'from'  => 'from',
-                            'to'    => 'to',
+                            TransitionFactory::CONFIG_KEY_STATE_FROM  => 'from',
+                            TransitionFactory::CONFIG_KEY_STATE_TO    => 'to',
                         ],
                     ],
-                    MachineFactoryInterface::CONFIG_KEY_LISTENERS =>        [],
+                    MachineFactoryInterface::CONFIG_KEY_LISTENERS   =>  [],
                 ],
             ],
         ];

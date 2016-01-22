@@ -3,7 +3,9 @@
 namespace FSM\Machine;
 
 use FSM\Container\ContainerInterface;
+use FSM\State\StateFactory;
 use FSM\State\StateInterface;
+use FSM\Transition\TransitionFactory;
 
 /**
  * Machine factory test
@@ -75,13 +77,13 @@ class MachineFactoryTest extends \PHPUnit_Framework_TestCase
     {
         return [
             MachineFactory::CONFIG_KEY_STATES        => [
-                'state1' => ['type' => StateInterface::TYPE_REGULAR],
-                'state2' => ['type' => StateInterface::TYPE_REGULAR],
+                'state1' => [StateFactory::CONFIG_KEY_TYPE => StateInterface::TYPE_REGULAR],
+                'state2' => [StateFactory::CONFIG_KEY_TYPE => StateInterface::TYPE_REGULAR],
             ],
             MachineFactory::CONFIG_KEY_TRANSITIONS   => [
                 [
-                    'from'  => 'state1',
-                    'to'    => 'state2',
+                    TransitionFactory::CONFIG_KEY_STATE_FROM  => 'state1',
+                    TransitionFactory::CONFIG_KEY_STATE_TO    => 'state2',
                 ]
             ],
             MachineFactory::CONFIG_KEY_LISTENERS     => [],

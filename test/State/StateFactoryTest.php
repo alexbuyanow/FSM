@@ -10,7 +10,7 @@ namespace FSM\State;
 class StateFactoryTest extends \PHPUnit_Framework_TestCase
 {
     private $config = [
-        'state_regular'         => ['type' => StateInterface::TYPE_REGULAR],
+        'state_regular'         => [StateFactory::CONFIG_KEY_TYPE => StateInterface::TYPE_REGULAR],
         'state_untyped'         => [],
     ];
 

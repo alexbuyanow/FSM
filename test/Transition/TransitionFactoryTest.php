@@ -2,6 +2,7 @@
 namespace FSM\Transition;
 
 use FSM\Guard\GuardManagerInterface;
+use FSM\State\StateFactory;
 use FSM\State\StateFactoryInterface;
 use FSM\State\StateInterface;
 
@@ -15,9 +16,9 @@ class TransitionFactoryTest extends \PHPUnit_Framework_TestCase
     public function testGetTransition()
     {
         $config = [
-            'from'          => 'state_from',
-            'to'            => 'state_to',
-            'signal'        => 'some_signal',
+            TransitionFactory::CONFIG_KEY_STATE_FROM    => 'state_from',
+            TransitionFactory::CONFIG_KEY_STATE_TO      => 'state_to',
+            TransitionFactory::CONFIG_KEY_SIGNAL        => 'some_signal',
         ];
 
         $stateMock = $this->getMock(
@@ -50,8 +51,8 @@ class TransitionFactoryTest extends \PHPUnit_Framework_TestCase
     public function testGetTransitionHasNotFromState()
     {
         $config = [
-            'to'            => 'state_to',
-            'signal'        => 'some_signal',
+            TransitionFactory::CONFIG_KEY_STATE_TO  => 'state_to',
+            TransitionFactory::CONFIG_KEY_SIGNAL    => 'some_signal',
         ];
 
         $stateFactoryMock = $this->getMock(
@@ -74,8 +75,8 @@ class TransitionFactoryTest extends \PHPUnit_Framework_TestCase
     public function testGetTransitionHasNotToState()
     {
         $config = [
-            'from'          => 'state_from',
-            'signal'        => 'some_signal',
+            TransitionFactory::CONFIG_KEY_STATE_FROM    => 'state_from',
+            TransitionFactory::CONFIG_KEY_SIGNAL        => 'some_signal',
         ];
 
         $stateFactoryMock = $this->getMock(
@@ -98,6 +99,6 @@ class TransitionFactoryTest extends \PHPUnit_Framework_TestCase
 
     private function getStateConfig()
     {
-        return ['state' => ['type' => StateInterface::TYPE_REGULAR]];
+        return ['state' => [StateFactory::CONFIG_KEY_TYPE => StateInterface::TYPE_REGULAR]];
     }
 }
