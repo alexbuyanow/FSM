@@ -13,7 +13,7 @@ return [
     ],
 
     FSMLocator::CONFIG_KEY_MACHINES => [
-        'Context' => [
+        Context::class => [
             MachineFactory::CONFIG_KEY_STATES       => [
                 'created'   => [StateFactory::CONFIG_KEY_TYPE => $typeRegular],
                 'edited'    => [StateFactory::CONFIG_KEY_TYPE => $typeRegular],
@@ -44,14 +44,14 @@ return [
                     TransitionFactory::CONFIG_KEY_STATE_FROM    => 'active',
                     TransitionFactory::CONFIG_KEY_STATE_TO      => 'deleted',
                     TransitionFactory::CONFIG_KEY_SIGNAL        => 'delete',
-                    TransitionFactory::CONFIG_KEY_GUARD         => 'SimpleGuard',
+                    TransitionFactory::CONFIG_KEY_GUARD         => SimpleGuard::class,
                 ],
 
                 [
                     TransitionFactory::CONFIG_KEY_STATE_FROM    => 'inactive',
                     TransitionFactory::CONFIG_KEY_STATE_TO      => 'deleted',
                     TransitionFactory::CONFIG_KEY_SIGNAL        => 'delete',
-                    TransitionFactory::CONFIG_KEY_GUARD         => 'SimpleGuard',
+                    TransitionFactory::CONFIG_KEY_GUARD         => SimpleGuard::class,
                 ],
             ],
 
