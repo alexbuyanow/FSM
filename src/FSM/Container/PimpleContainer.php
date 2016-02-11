@@ -6,8 +6,6 @@ use Pimple\Container;
 
 /**
  * DI container via Pimple
- *
- * @package FSM\Container
  */
 class PimpleContainer implements ContainerInterface
 {
@@ -27,10 +25,31 @@ class PimpleContainer implements ContainerInterface
      * Gets a parameter or an object
      *
      * @param string $name
+     * @throws Exception\NotFoundException
      * @return mixed
      */
     public function get($name)
     {
+        if(!$this->has($name))
+        {
+            $message = sprintf(
+                'Entry with name "%s" is not found in container',
+                $name
+            );
+            throw new Exception\NotFoundException($message);
+        }
+
         return $this->diContainer[$name];
+    }
+
+    /**
+     * Check if object sets in container
+     *
+     * @param string $name
+     * @return boolean
+     */
+    public function has($name)
+    {
+        return isset($this->diContainer[$name]);
     }
 }

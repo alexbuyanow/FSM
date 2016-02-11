@@ -17,7 +17,7 @@ class GuardManagerTest extends \PHPUnit_Framework_TestCase
 
         $containerMock = $this->getMock(
             ContainerInterface::class,
-            ['get']
+            ['get', 'has']
         );
         $containerMock
             ->expects($this->once())
@@ -38,7 +38,7 @@ class GuardManagerTest extends \PHPUnit_Framework_TestCase
 
         $containerMock = $this->getMock(
             ContainerInterface::class,
-            ['get']
+            ['get', 'has']
         );
         $containerMock
             ->expects($this->once())
@@ -56,7 +56,7 @@ class GuardManagerTest extends \PHPUnit_Framework_TestCase
     {
         $containerMock = $this->getMock(
             ContainerInterface::class,
-            ['get']
+            ['get', 'has']
         );
         $containerMock
             ->expects($this->once())
@@ -75,7 +75,7 @@ class GuardManagerTest extends \PHPUnit_Framework_TestCase
     {
         $containerMock = $this->getMock(
             ContainerInterface::class,
-            ['get']
+            ['get', 'has']
         );
         $containerMock
             ->expects($this->once())

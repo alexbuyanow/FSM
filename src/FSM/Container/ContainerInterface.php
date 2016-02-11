@@ -4,8 +4,6 @@ namespace FSM\Container;
 
 /**
  * DI container interface
- *
- * @package FSM\Container
  */
 interface ContainerInterface
 {
@@ -16,4 +14,12 @@ interface ContainerInterface
      * @return mixed
      */
     public function get($name);
+
+    /**
+     * Check if object sets in container
+     *
+     * @param string $name
+     * @return boolean
+     */
+    public function has($name);
 }

@@ -50,7 +50,7 @@ class FSMLocatorTest extends \PHPUnit_Framework_TestCase
     {
         $mock = $this->getMock(
             ContainerInterface::class,
-            ['get']
+            ['get', 'has']
         );
 
         return $mock;
