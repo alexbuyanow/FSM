@@ -15,10 +15,14 @@ $config = require __DIR__ . '/include/config.php';
 $context = new Context();
 $context->setContextState('created');
 
-$di = new \Pimple\Container();
-$di['SimpleGuard'] = new SimpleGuard();
-$di['SimpleListener'] = new SimpleListener();
-$container = new \FSM\Container\PimpleContainer($di);
+$di                     = new \Pimple\Container();
+$di['SimpleGuard']      = function($container){
+    return new SimpleGuard();
+};
+$di['SimpleListener']   = function($container){
+    return new SimpleListener();
+};
+$container              = new \FSM\Container\PimpleContainer($di);
 
 
 $machineFactory = new FSM\FSMLocator($config, $container);
