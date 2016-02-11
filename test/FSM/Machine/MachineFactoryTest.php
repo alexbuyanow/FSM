@@ -14,58 +14,57 @@ class MachineFactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetMachine()
     {
-        $factory = new MachineFactory(
+        $factory = new MachineFactory([]);
+        $machine = $factory->getMachine(
             'test_machine',
             $this->getConfigArray(),
-            [],
             $this->getContainerMock()
         );
 
-        $machine = $factory->getMachine();
         $this->assertInstanceOf(MachineInterface::class, $machine);
     }
 
     public function testGetMachineConfigNotContainsStatesSection()
     {
+        $this->expectException(Exception\InvalidConfigException::class);
+
         $config = $this->getConfigArray();
         unset($config[MachineFactory::CONFIG_KEY_STATES]);
 
-        $this->setExpectedException(Exception\InvalidConfigException::class);
-
-        new MachineFactory(
+        $factory = new MachineFactory([]);
+        $factory->getMachine(
             'test_machine',
             $config,
-            [],
             $this->getContainerMock()
         );
     }
 
     public function testGetMachineConfigNotContainsTransitionsSection()
     {
+        $this->expectException(Exception\InvalidConfigException::class);
+
         $config = $this->getConfigArray();
         unset($config[MachineFactory::CONFIG_KEY_TRANSITIONS]);
 
-        $this->setExpectedException(Exception\InvalidConfigException::class);
-
-        new MachineFactory(
+        $factory = new MachineFactory([]);
+        $factory->getMachine(
             'test_machine',
             $config,
-            [],
             $this->getContainerMock()
         );
     }
 
     public function testGetMachineConfigNotContainsListenersSection()
     {
+        $this->expectException(Exception\InvalidConfigException::class);
+
         $config = $this->getConfigArray();
         unset($config[MachineFactory::CONFIG_KEY_LISTENERS]);
 
-        $this->setExpectedException(Exception\InvalidConfigException::class);
-
-        new MachineFactory(
+        $factory = new MachineFactory([]);
+        $factory->getMachine(
             'test_machine',
             $config,
-            [],
             $this->getContainerMock()
         );
     }

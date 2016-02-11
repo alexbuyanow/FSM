@@ -4,6 +4,7 @@ namespace FSM;
 
 use FSM\Container\ContainerInterface;
 use FSM\Machine\MachineFactoryInterface;
+use FSM\Machine\MachineInterface;
 use FSM\State\StateFactory;
 use FSM\State\StateInterface;
 use FSM\Transition\TransitionFactory;
@@ -13,14 +14,25 @@ use FSM\Transition\TransitionFactory;
  */
 class FSMLocatorTest extends \PHPUnit_Framework_TestCase
 {
+    /** @var string  */
+    private $contextClassName = 'ContextClass';
+
     public function testGetMachineFactory()
     {
-        $locator = new FSMLocator($this->getConfig(), $this->getContainerMock());
+        $locator            = new FSMLocator($this->getConfig(), $this->getContainerMock());
+        $machineFactory     = $locator->getMachineFactory();
 
-        $this->assertInstanceOf(
-            MachineFactoryInterface::class,
-            $locator->getMachineFactory($this->getContextMock())
-        );
+        $this->assertInstanceOf(MachineFactoryInterface::class, $machineFactory);
+        $this->assertEquals($machineFactory, $locator->getMachineFactory());
+    }
+
+    public function testGetMachine()
+    {
+        $locator = new FSMLocator($this->getConfig(), $this->getContainerMock());
+        $machine = $locator->getMachine($this->getContextMock());
+
+        $this->assertInstanceOf(MachineInterface::class, $machine);
+        $this->assertEquals($machine, $locator->getMachine($this->getContextMock()));
     }
 
     /**
@@ -32,7 +44,7 @@ class FSMLocatorTest extends \PHPUnit_Framework_TestCase
             ContextInterface::class,
             ['getContextUid', 'getContextState', 'setContextState'],
             [],
-            'ContextClass'
+            $this->contextClassName
         );
 
         $mock
@@ -63,7 +75,7 @@ class FSMLocatorTest extends \PHPUnit_Framework_TestCase
     {
         return [
             FSMLocator::CONFIG_KEY_MACHINES => [
-                'ContextClass' => [
+                $this->contextClassName => [
                     MachineFactoryInterface::CONFIG_KEY_STATES      => [
                         'from'  => [StateFactory::CONFIG_KEY_TYPE => StateInterface::TYPE_REGULAR],
                         'to'    => [StateFactory::CONFIG_KEY_TYPE => StateInterface::TYPE_REGULAR],

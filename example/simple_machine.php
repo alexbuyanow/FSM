@@ -25,8 +25,8 @@ $di['SimpleListener']   = function($container){
 $container              = new \FSM\Container\PimpleContainer($di);
 
 
-$machineFactory = new FSM\FSMLocator($config, $container);
-$machine = $machineFactory->getMachineFactory($context)->getMachine();
+$machineLocator = new FSM\FSMLocator($config, $container);
+$machine = $machineLocator->getMachine($context);
 
 echo $context->getContextState(), $cr;
 

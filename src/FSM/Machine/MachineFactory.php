@@ -24,81 +24,69 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class MachineFactory implements MachineFactoryInterface
 {
-    /** @var  string */
-    private $name;
-
     /** @var  array */
     private $options;
 
-    /** @var StateFactory */
-    private $statesFactory;
-
-    /** @var TransitionTable */
-    private $transitionsTable;
-
-    /** @var  EventDispatcherInterface */
-    private $eventDispatcher;
-
-    /** @var  EventFactoryInterface */
-    private $eventFactory;
-
-    /** @var  ContainerInterface */
-    private $container;
-
-    /** @var  GuardManagerInterface */
-    private $guardsFactory;
+    /** @var  array */
+    private $machines = [];
 
 
     /**
-     * @param string             $name
-     * @param array              $config
-     * @param array              $options
-     * @param ContainerInterface $container
+     * @param array $options
      */
-    public function __construct($name, array $config, array $options, ContainerInterface $container)
+    public function __construct(array $options)
     {
-        $this->name                         = $name;
-        $this->options                      = $options;
-        $this->container                    = $container;
-        $this->statesFactory                = $this->getStatesFactory($config);
-        $this->guardsFactory                = $this->getGuardsFactory();
-        $this->transitionsTable             = $this->getTransitionsTable($this->getTransitionsFactory($this->statesFactory, $this->guardsFactory), $config);
-        $this->eventDispatcher              = $this->getEventDispatcher();
-        $this->eventFactory                 = $this->getEventFactory($this->eventDispatcher);
-
-        $this->initListeners($this->eventDispatcher, $this->getListenerFactory($this->container), $config);
-
+        $this->options = $options;
     }
 
     /**
      * Gets machine
      *
-     * @return MachineInterface
+     * @param string             $name
+     * @param array              $config
+     * @param ContainerInterface $container
+     * @return Machine
      */
-    public function getMachine()
+    public function getMachine($name, array $config, ContainerInterface $container)
     {
-        return new Machine(
-            $this->name,
-            $this->transitionsTable,
-            $this->statesFactory,
-            $this->eventFactory,
-            $this->options
-        );
+        if(!array_key_exists($name, $this->machines))
+        {
+            $statesFactory      = $this->getStatesFactory($this->getSubConfig($name, static::CONFIG_KEY_STATES, $config));
+            $guardsFactory      = $this->getGuardsFactory($container);
+            $transitionFactory  = $this->getTransitionsFactory($statesFactory, $guardsFactory);
+            $transitionTable    = $this->getTransitionsTable($transitionFactory, $this->getSubConfig($name, static::CONFIG_KEY_TRANSITIONS, $config));
+            $eventDispatcher    = $this->getEventDispatcher();
+            $eventFactory       = $this->getEventFactory($eventDispatcher);
+            $listenerManager    = $this->getListenerManager($container);
+
+            $this->initListeners($eventDispatcher, $listenerManager, $this->getSubConfig($name, static::CONFIG_KEY_LISTENERS, $config));
+
+            $this->machines[$name] = new Machine(
+                $name,
+                $transitionTable,
+                $statesFactory,
+                $eventFactory,
+                $this->options
+            );
+        }
+
+        return $this->machines[$name];
     }
 
 
     /**
      * Gets config value/section by key
      *
+     * @param string $machineName
      * @param string $key
      * @param array  $config
      * @return array
      */
-    private function getSubConfig($key, array $config)
+    private function getSubConfig($machineName, $key, array $config)
     {
         if(!array_key_exists($key, $config))
         {
-            $message = sprintf('Not found section "%s" in config for machine "%s"', $key, $this->name);
+            $message = sprintf('Not found section "%s" in config for machine "%s"', $key, $machineName);
             throw new Exception\InvalidConfigException($message);
         }
 
@@ -113,7 +101,6 @@ class MachineFactory implements MachineFactoryInterface
      */
     private function getStatesFactory(array $config)
     {
-        $config = $this->getSubConfig(self::CONFIG_KEY_STATES, $config);
         return new StateFactory($config);
     }
 
@@ -138,7 +125,6 @@ class MachineFactory implements MachineFactoryInterface
      */
     private function getTransitionsTable(TransitionFactoryInterface $transitionsFactory, array $config)
     {
-        $config = $this->getSubConfig(self::CONFIG_KEY_TRANSITIONS, $config);
         return new TransitionTable($transitionsFactory, $config);
     }
 
@@ -155,11 +141,12 @@ class MachineFactory implements MachineFactoryInterface
     /**
      * Get guards factory
      *
-     * @return GuardManagerInterface
+     * @param ContainerInterface $container
+     * @return GuardManager
      */
-    private function getGuardsFactory()
+    private function getGuardsFactory(ContainerInterface $container)
     {
-        return new GuardManager($this->container);
+        return new GuardManager($container);
     }
 
     /**
@@ -174,30 +161,28 @@ class MachineFactory implements MachineFactoryInterface
     }
 
     /**
-     * Gets listener factory
+     * Gets listener manager
      *
      * @param ContainerInterface $container
      * @return ListenerManagerInterface
      */
-    private function getListenerFactory(ContainerInterface $container)
+    private function getListenerManager(ContainerInterface $container)
     {
         return new ListenerManager($container);
     }
 
-    private function initListeners(EventDispatcherInterface $eventDispatcher, ListenerManagerInterface $listenerFactory, array $config)
+    private function initListeners(EventDispatcherInterface $eventDispatcher, ListenerManagerInterface $listenerManager, array $config)
     {
-        $config = $this->getSubConfig(self::CONFIG_KEY_LISTENERS, $config);
-
         array_walk(
             $config,
-            function(array $listenerConfig) use($eventDispatcher, $listenerFactory)
+            function(array $listenerConfig) use($eventDispatcher, $listenerManager)
             {
                 $listenerEvent      = $listenerConfig[ListenerManager::CONFIG_KEY_EVENT];
                 $listenerName       = $listenerConfig[ListenerManager::CONFIG_KEY_LISTENER];
 
                 $eventDispatcher->addListener(
                     $listenerEvent,
-                    $listenerFactory->getListenerCallable($listenerName)
+                    $listenerManager->getListenerCallable($listenerName)
                 );
             }
         );

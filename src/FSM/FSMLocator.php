@@ -30,8 +30,8 @@ class FSMLocator
     /** @var  array */
     private $machinesConfig;
 
-    /** @var MachineFactoryInterface[] */
-    private $factories = [];
+    /** @var MachineFactoryInterface */
+    private $factory;
 
     /** @var  ContainerInterface */
     private $container;
@@ -43,36 +43,48 @@ class FSMLocator
      */
     public function __construct(array $config, ContainerInterface $container)
     {
-        $config = array_merge($this->getDefaultConfig(), $config);
-        $this->options = $this->getOptions($config);
-        $this->container = $container;
-        $this->machinesConfig = $this->getMachinesConfig($config);
-        $this->resolver = $this->getResolver();
+        $config                 = array_merge($this->getDefaultConfig(), $config);
+        $this->options          = $this->getOptions($config);
+        $this->container        = $container;
+        $this->machinesConfig   = $this->getMachinesConfig($config);
+        $this->resolver         = $this->getResolver();
     }
 
     /**
-     * Gets concrete machine sub factory
+     * Gets machine factory
      *
-     * @param ContextInterface $context
      * @return MachineFactoryInterface
-     * @throws Exception\UnknownContextException
      */
-    public function getMachineFactory(ContextInterface $context)
+    public function getMachineFactory()
     {
-        $machineName = $this->resolver->getConfigName($context);
-
-        if(!array_key_exists($machineName, $this->factories))
+        if(is_null($this->factory))
         {
-            if(!$this->resolver->isContained($context))
-            {
-                $message = sprintf('Machine for context %s is not describe in config', get_class($context));
-                throw new Exception\UnknownContextException($message);
-            }
-
-            $this->factories[$machineName] = new MachineFactory($machineName, $this->resolver->getConfig($context), $this->options, $this->container);
+            $this->factory = new MachineFactory($this->options);
         }
 
-        return $this->factories[$machineName];
+        return $this->factory;
+    }
+
+    /**
+     * Gets concrete machine
+     *
+     * @param ContextInterface $context
+     * @throws Exception\UnknownContextException
+     * @return Machine\Machine
+     */
+    public function getMachine(ContextInterface $context)
+    {
+        if(!$this->resolver->isContained($context))
+        {
+            $message = sprintf('Machine for context %s is not describe in config', get_class($context));
+            throw new Exception\UnknownContextException($message);
+        }
+
+        return $this->getMachineFactory()->getMachine(
+            $this->resolver->getConfigName($context),
+            $this->resolver->getConfig($context),
+            $this->container
+        );
     }
 
 

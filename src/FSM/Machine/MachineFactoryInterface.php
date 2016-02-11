@@ -2,6 +2,8 @@
 
 namespace FSM\Machine;
 
+use FSM\Container\ContainerInterface;
+
 /**
  * Concrete machine factory interface
  *
@@ -21,7 +23,10 @@ interface MachineFactoryInterface
     /**
      * Gets machine
      *
-     * @return MachineInterface
+     * @param string             $name
+     * @param array              $config
+     * @param ContainerInterface $container
+     * @return Machine
      */
-    public function getMachine();
+    public function getMachine($name, array $config, ContainerInterface $container);
 }
