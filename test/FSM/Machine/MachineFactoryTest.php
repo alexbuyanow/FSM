@@ -26,7 +26,7 @@ class MachineFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetMachineConfigNotContainsStatesSection()
     {
-        $this->expectException(Exception\InvalidConfigException::class);
+        $this->setExpectedException(Exception\InvalidConfigException::class);
 
         $config = $this->getConfigArray();
         unset($config[MachineFactory::CONFIG_KEY_STATES]);
@@ -41,7 +41,7 @@ class MachineFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetMachineConfigNotContainsTransitionsSection()
     {
-        $this->expectException(Exception\InvalidConfigException::class);
+        $this->setExpectedException(Exception\InvalidConfigException::class);
 
         $config = $this->getConfigArray();
         unset($config[MachineFactory::CONFIG_KEY_TRANSITIONS]);
@@ -56,7 +56,7 @@ class MachineFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetMachineConfigNotContainsListenersSection()
     {
-        $this->expectException(Exception\InvalidConfigException::class);
+        $this->setExpectedException(Exception\InvalidConfigException::class);
 
         $config = $this->getConfigArray();
         unset($config[MachineFactory::CONFIG_KEY_LISTENERS]);

@@ -64,7 +64,7 @@ class PimpleContainerTest extends PHPUnit_Framework_TestCase
         /** @var Container $mock */
         $container = new PimpleContainer($mock);
 
-        $this->expectException(Exception\NotFoundException::class);
+        $this->setExpectedException(Exception\NotFoundException::class);
         $container->get($this->notExistsEntryName);
     }
 
