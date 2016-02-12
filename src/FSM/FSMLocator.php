@@ -14,11 +14,11 @@ use FSM\Resolver\ResolverInterface;
  */
 class FSMLocator
 {
-    const CONFIG_KEY_OPTIONS    = 'options';
-    const CONFIG_KEY_MACHINES   = 'machines';
+    const CONFIG_KEY_OPTIONS   = 'options';
+    const CONFIG_KEY_MACHINES  = 'machines';
 
-    const OPTIONS_KEY_RESOLVER  = 'resolver';
-    const OPTIONS_KEY_STRICT    = 'strict';
+    const OPTIONS_KEY_RESOLVER = 'resolver';
+    const OPTIONS_KEY_STRICT   = 'strict';
 
 
     /** @var array */
@@ -43,11 +43,11 @@ class FSMLocator
      */
     public function __construct(array $config, ContainerInterface $container)
     {
-        $config                 = array_merge($this->getDefaultConfig(), $config);
-        $this->options          = $this->getOptions($config);
-        $this->container        = $container;
-        $this->machinesConfig   = $this->getMachinesConfig($config);
-        $this->resolver         = $this->getResolver();
+        $config               = array_merge($this->getDefaultConfig(), $config);
+        $this->options        = $this->getOptions($config);
+        $this->container      = $container;
+        $this->machinesConfig = $this->getMachinesConfig($config);
+        $this->resolver       = $this->getResolver();
     }
 
     /**

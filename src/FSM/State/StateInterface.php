@@ -12,8 +12,8 @@ interface StateInterface
     /**
      * State types
      */
-    const TYPE_REGULAR          = 'regular';
-    const TYPE_SUB_MACHINE      = 'sub_machine';
+    const TYPE_REGULAR     = 'regular';
+    const TYPE_SUB_MACHINE = 'sub_machine';
 
 
     /**

@@ -32,10 +32,10 @@ class Transition implements TransitionInterface
      */
     public function __construct(StateInterface $stateFrom, StateInterface $stateTo, $signal = null, $guard = null)
     {
-        $this->stateFrom        = $stateFrom;
-        $this->stateTo          = $stateTo;
-        $this->signal           = $signal;
-        $this->guard            = $guard;
+        $this->stateFrom = $stateFrom;
+        $this->stateTo   = $stateTo;
+        $this->signal    = $signal;
+        $this->guard     = $guard;
     }
 
     /**
@@ -61,7 +61,7 @@ class Transition implements TransitionInterface
     /**
      * Signal name getter
      *
-     * @return string
+     * @return string|null
      */
     public function getSignal()
     {
@@ -71,7 +71,7 @@ class Transition implements TransitionInterface
     /**
      * Is transition direct (without signal)
      *
-     * @return string|null
+     * @return boolean
      */
     public function isDirect()
     {

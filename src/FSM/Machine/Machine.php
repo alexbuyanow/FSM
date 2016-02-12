@@ -44,11 +44,11 @@ class Machine implements MachineInterface
 
 
     /**
-     * @param string                        $name
-     * @param TransitionTableInterface      $transitionsTable
-     * @param StateFactoryInterface         $statesFactory
-     * @param EventFactoryInterface         $eventFactory
-     * @param array                         $options
+     * @param string                   $name
+     * @param TransitionTableInterface $transitionsTable
+     * @param StateFactoryInterface    $statesFactory
+     * @param EventFactoryInterface    $eventFactory
+     * @param array                    $options
      */
     public function __construct(
         $name,
@@ -58,11 +58,11 @@ class Machine implements MachineInterface
         array $options
     )
     {
-        $this->name                 = $name;
-        $this->transitionsTable     = $transitionsTable;
-        $this->statesFactory        = $statesFactory;
-        $this->eventFactory         = $eventFactory;
-        $this->options              = $options;
+        $this->name             = $name;
+        $this->transitionsTable = $transitionsTable;
+        $this->statesFactory    = $statesFactory;
+        $this->eventFactory     = $eventFactory;
+        $this->options          = $options;
     }
 
     /**
@@ -206,7 +206,7 @@ class Machine implements MachineInterface
     private function findAllowedTransition(ContextInterface $context, $signal)
     {
         $contextState = $this->getContextState($context);
-        $transitions = $this->getTransitions($contextState, $signal);
+        $transitions  = $this->getTransitions($contextState, $signal);
 
         $transitions = array_filter(
             $transitions,
@@ -229,7 +229,7 @@ class Machine implements MachineInterface
         )
         {
             $signalText = sprintf('by signal "%s"', $signal);
-            $message = sprintf(
+            $message    = sprintf(
                 'There are more than one transitions from state "%s" %s for machine "%s"',
                 $contextState->getName(),
                 is_null($signal) ? 'directly' : $signalText,

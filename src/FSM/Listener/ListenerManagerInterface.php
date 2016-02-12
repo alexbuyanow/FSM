@@ -9,8 +9,8 @@ namespace FSM\Listener;
  */
 interface ListenerManagerInterface
 {
-    const CONFIG_KEY_EVENT      = 'event';
-    const CONFIG_KEY_LISTENER   = 'listener';
+    const CONFIG_KEY_EVENT    = 'event';
+    const CONFIG_KEY_LISTENER = 'listener';
 
 
     /**

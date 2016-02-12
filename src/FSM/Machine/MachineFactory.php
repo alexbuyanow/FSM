@@ -177,8 +177,8 @@ class MachineFactory implements MachineFactoryInterface
             $config,
             function(array $listenerConfig) use($eventDispatcher, $listenerManager)
             {
-                $listenerEvent      = $listenerConfig[ListenerManager::CONFIG_KEY_EVENT];
-                $listenerName       = $listenerConfig[ListenerManager::CONFIG_KEY_LISTENER];
+                $listenerEvent = $listenerConfig[ListenerManager::CONFIG_KEY_EVENT];
+                $listenerName  = $listenerConfig[ListenerManager::CONFIG_KEY_LISTENER];
 
                 $eventDispatcher->addListener(
                     $listenerEvent,

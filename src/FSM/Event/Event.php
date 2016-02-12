@@ -45,11 +45,11 @@ class Event extends PrototypeEvent implements EventInterface
         array $params = []
     )
     {
-        $this->machine      = $machine;
-        $this->context      = $context;
-        $this->transition   = $transition;
-        $this->signal       = $signal;
-        $this->params       = $params;
+        $this->machine    = $machine;
+        $this->context    = $context;
+        $this->transition = $transition;
+        $this->signal     = $signal;
+        $this->params     = $params;
     }
 
     /**

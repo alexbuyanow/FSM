@@ -14,10 +14,10 @@ interface MachineFactoryInterface
     /**
      * Machine config sections keys
      */
-    const CONFIG_KEY_STATES         = 'states';
-    const CONFIG_KEY_TRANSITIONS    = 'transitions';
-    const CONFIG_KEY_GUARDS         = 'guards';
-    const CONFIG_KEY_LISTENERS      = 'listeners';
+    const CONFIG_KEY_STATES      = 'states';
+    const CONFIG_KEY_TRANSITIONS = 'transitions';
+    const CONFIG_KEY_GUARDS      = 'guards';
+    const CONFIG_KEY_LISTENERS   = 'listeners';
 
 
     /**

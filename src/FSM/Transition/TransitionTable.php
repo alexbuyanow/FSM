@@ -37,7 +37,7 @@ class TransitionTable implements TransitionTableInterface, \Iterator
             throw new Exception\InvalidTransitionConfig('Transitions config is empty');
         }
 
-        $this->transitionFactory            = $transitionFactory;
+        $this->transitionFactory = $transitionFactory;
 
         array_walk(
             $transitionsConfig,
