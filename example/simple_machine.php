@@ -16,12 +16,8 @@ $context = new Context();
 $context->setContextState('created');
 
 $di                   = new \Pimple\Container();
-$di['SimpleGuard']    = function($container){
-    return new SimpleGuard();
-};
-$di['SimpleListener'] = function($container){
-    return new SimpleListener();
-};
+$di['SimpleGuard']    = function($container){return new SimpleGuard();};
+$di['SimpleListener'] = function($container){return new SimpleListener();};
 $container            = new \FSM\Container\PimpleContainer($di);
 
 
