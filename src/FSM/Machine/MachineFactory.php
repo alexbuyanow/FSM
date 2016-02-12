@@ -52,8 +52,8 @@ class MachineFactory implements MachineFactoryInterface
         if(!array_key_exists($name, $this->machines))
         {
             $statesFactory     = $this->getStatesFactory($this->getSubConfig($name, static::CONFIG_KEY_STATES, $config));
-            $guardsFactory     = $this->getGuardsFactory($container);
-            $transitionFactory = $this->getTransitionsFactory($statesFactory, $guardsFactory);
+            $guardManager      = $this->getGuardManager($container);
+            $transitionFactory = $this->getTransitionsFactory($statesFactory, $guardManager);
             $transitionTable   = $this->getTransitionsTable($transitionFactory, $this->getSubConfig($name, static::CONFIG_KEY_TRANSITIONS, $config));
             $eventDispatcher   = $this->getEventDispatcher();
             $eventFactory      = $this->getEventFactory($eventDispatcher);
@@ -108,12 +108,12 @@ class MachineFactory implements MachineFactoryInterface
      * Gets transitions factory by config
      *
      * @param StateFactoryInterface $stateFactory
-     * @param GuardManagerInterface $guardsFactory
+     * @param GuardManagerInterface $guardManager
      * @return TransitionFactoryInterface
      */
-    private function getTransitionsFactory(StateFactoryInterface $stateFactory, GuardManagerInterface $guardsFactory)
+    private function getTransitionsFactory(StateFactoryInterface $stateFactory, GuardManagerInterface $guardManager)
     {
-        return new TransitionFactory($stateFactory, $guardsFactory);
+        return new TransitionFactory($stateFactory, $guardManager);
     }
 
     /**
@@ -144,7 +144,7 @@ class MachineFactory implements MachineFactoryInterface
      * @param ContainerInterface $container
      * @return GuardManager
      */
-    private function getGuardsFactory(ContainerInterface $container)
+    private function getGuardManager(ContainerInterface $container)
     {
         return new GuardManager($container);
     }

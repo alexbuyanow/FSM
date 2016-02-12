@@ -35,11 +35,11 @@ class TransitionFactoryTest extends \PHPUnit_Framework_TestCase
             ->method('getState')
             ->willReturn($stateMock);
 
-        $guardFactoryMock = $this->getMock(GuardManagerInterface::class);
+        $guardManagerMock = $this->getMock(GuardManagerInterface::class);
 
         /** @var StateFactoryInterface $stateFactoryMock */
-        /** @var GuardManagerInterface $guardFactoryMock */
-        $transitionFactory = new TransitionFactory($stateFactoryMock, $guardFactoryMock);
+        /** @var GuardManagerInterface $guardManagerMock */
+        $transitionFactory = new TransitionFactory($stateFactoryMock, $guardManagerMock);
         $transition        = $transitionFactory->getTransition($config);
 
         $this->assertInstanceOf(TransitionInterface::class, $transition);
@@ -61,11 +61,11 @@ class TransitionFactoryTest extends \PHPUnit_Framework_TestCase
             [$this->getStateConfig()]
         );
 
-        $guardFactoryMock = $this->getMock(GuardManagerInterface::class);
+        $guardManagerMock = $this->getMock(GuardManagerInterface::class);
 
         /** @var StateFactoryInterface $stateFactoryMock */
-        /** @var GuardManagerInterface $guardFactoryMock */
-        $transitionFactory = new TransitionFactory($stateFactoryMock, $guardFactoryMock);
+        /** @var GuardManagerInterface $guardManagerMock */
+        $transitionFactory = new TransitionFactory($stateFactoryMock, $guardManagerMock);
 
         $this->setExpectedException(Exception\InvalidTransitionConfig::class);
 
@@ -85,11 +85,11 @@ class TransitionFactoryTest extends \PHPUnit_Framework_TestCase
             [$this->getStateConfig()]
         );
 
-        $guardFactoryMock = $this->getMock(GuardManagerInterface::class);
+        $guardManagerMock = $this->getMock(GuardManagerInterface::class);
 
         /** @var StateFactoryInterface $stateFactoryMock */
-        /** @var GuardManagerInterface $guardFactoryMock */
-        $transitionFactory = new TransitionFactory($stateFactoryMock, $guardFactoryMock);
+        /** @var GuardManagerInterface $guardManagerMock */
+        $transitionFactory = new TransitionFactory($stateFactoryMock, $guardManagerMock);
 
         $this->setExpectedException(Exception\InvalidTransitionConfig::class);
 

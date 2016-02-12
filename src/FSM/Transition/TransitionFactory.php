@@ -16,17 +16,17 @@ class TransitionFactory implements TransitionFactoryInterface
     private $stateFactory;
 
     /** @var  GuardManagerInterface */
-    private $guardFactory;
+    private $guardManager;
 
 
     /**
      * @param StateFactoryInterface $stateFactory
-     * @param GuardManagerInterface $guardFactory
+     * @param GuardManagerInterface $guardManager
      */
-    public function __construct(StateFactoryInterface $stateFactory, GuardManagerInterface $guardFactory)
+    public function __construct(StateFactoryInterface $stateFactory, GuardManagerInterface $guardManager)
     {
         $this->stateFactory = $stateFactory;
-        $this->guardFactory = $guardFactory;
+        $this->guardManager = $guardManager;
     }
 
     /**
@@ -49,7 +49,7 @@ class TransitionFactory implements TransitionFactoryInterface
         $from   = $this->stateFactory->getState($config[static::CONFIG_KEY_STATE_FROM]);
         $to     = $this->stateFactory->getState($config[static::CONFIG_KEY_STATE_TO]);
         $signal = isset($config[static::CONFIG_KEY_SIGNAL]) ? $config[static::CONFIG_KEY_SIGNAL] : null;
-        $guard  = isset($config[static::CONFIG_KEY_GUARD]) ? $this->guardFactory->getGuardCallable($config[static::CONFIG_KEY_GUARD]) : null;
+        $guard  = isset($config[static::CONFIG_KEY_GUARD]) ? $this->guardManager->getGuardCallable($config[static::CONFIG_KEY_GUARD]) : null;
 
         return new Transition($from, $to, $signal, $guard);
     }
