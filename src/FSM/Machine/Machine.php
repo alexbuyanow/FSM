@@ -3,8 +3,8 @@
 namespace FSM\Machine;
 
 use FSM\ContextInterface;
-use FSM\Event\Event;
 use FSM\Event\EventFactoryInterface;
+use FSM\Event\EventInterface;
 use FSM\FSMLocator;
 use FSM\Queue\QueueInterface;
 use FSM\Queue\SimpleQueue;
@@ -85,12 +85,12 @@ class Machine implements MachineInterface
 
         $this->performsRegistry[$contextId] = $contextId;
 
-        $this->triggerEvent(Event::MACHINE_REFRESH_PRE, $context);
+        $this->triggerEvent(EventInterface::MACHINE_REFRESH_PRE, $context);
 
         $this->performDirectTransitions($context);
         $this->performSignalTransitions($context);
 
-        $this->triggerEvent(Event::MACHINE_REFRESH_POST, $context);
+        $this->triggerEvent(EventInterface::MACHINE_REFRESH_POST, $context);
 
         unset($this->performsRegistry[$contextId]);
     }
@@ -172,13 +172,13 @@ class Machine implements MachineInterface
      */
     private function performTransition(ContextInterface $context, TransitionInterface $transition, array $params)
     {
-        $this->triggerEvent(Event::TRANSITION_PRE, $context, $transition, null, $params);
-        $this->triggerEvent(Event::STATE_EXIT, $context, $transition, null, $params);
+        $this->triggerEvent(EventInterface::TRANSITION_PRE, $context, $transition, null, $params);
+        $this->triggerEvent(EventInterface::STATE_EXIT, $context, $transition, null, $params);
 
         $this->setContextState($context, $transition->getStateTo());
 
-        $this->triggerEvent(Event::STATE_ENTRY, $context, $transition, null, $params);
-        $this->triggerEvent(Event::TRANSITION_POST, $context, $transition, null, $params);
+        $this->triggerEvent(EventInterface::STATE_ENTRY, $context, $transition, null, $params);
+        $this->triggerEvent(EventInterface::TRANSITION_POST, $context, $transition, null, $params);
     }
 
     /**
@@ -320,9 +320,9 @@ class Machine implements MachineInterface
             return;
         }
 
-        $this->triggerEvent(Event::SIGNAL_PRE, $context, null, $signal, $params);
+        $this->triggerEvent(EventInterface::SIGNAL_PRE, $context, null, $signal, $params);
         $this->performTransition($context, $transition, $params);
-        $this->triggerEvent(Event::SIGNAL_POST, $context, null, $signal, $params);
+        $this->triggerEvent(EventInterface::SIGNAL_POST, $context, null, $signal, $params);
     }
 
     /**
