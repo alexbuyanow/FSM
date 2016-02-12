@@ -7,26 +7,26 @@ require __DIR__ . '/include/SimpleGuard.php';
 require __DIR__ . '/include/SimpleListener.php';
 
 
-$cr = "\n";
+$cr          = "\n";
 $typeRegular = FSM\State\StateInterface::TYPE_REGULAR;
-$config = require __DIR__ . '/include/config.php';
+$config      = require __DIR__ . '/include/config.php';
 
 
 $context = new Context();
 $context->setContextState('created');
 
-$di                     = new \Pimple\Container();
-$di['SimpleGuard']      = function($container){
+$di                   = new \Pimple\Container();
+$di['SimpleGuard']    = function($container){
     return new SimpleGuard();
 };
-$di['SimpleListener']   = function($container){
+$di['SimpleListener'] = function($container){
     return new SimpleListener();
 };
-$container              = new \FSM\Container\PimpleContainer($di);
+$container            = new \FSM\Container\PimpleContainer($di);
 
 
 $machineLocator = new FSM\FSMLocator($config, $container);
-$machine = $machineLocator->getMachine($context);
+$machine        = $machineLocator->getMachine($context);
 
 echo $context->getContextState(), $cr;
 

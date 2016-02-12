@@ -51,13 +51,13 @@ class MachineFactory implements MachineFactoryInterface
     {
         if(!array_key_exists($name, $this->machines))
         {
-            $statesFactory      = $this->getStatesFactory($this->getSubConfig($name, static::CONFIG_KEY_STATES, $config));
-            $guardsFactory      = $this->getGuardsFactory($container);
-            $transitionFactory  = $this->getTransitionsFactory($statesFactory, $guardsFactory);
-            $transitionTable    = $this->getTransitionsTable($transitionFactory, $this->getSubConfig($name, static::CONFIG_KEY_TRANSITIONS, $config));
-            $eventDispatcher    = $this->getEventDispatcher();
-            $eventFactory       = $this->getEventFactory($eventDispatcher);
-            $listenerManager    = $this->getListenerManager($container);
+            $statesFactory     = $this->getStatesFactory($this->getSubConfig($name, static::CONFIG_KEY_STATES, $config));
+            $guardsFactory     = $this->getGuardsFactory($container);
+            $transitionFactory = $this->getTransitionsFactory($statesFactory, $guardsFactory);
+            $transitionTable   = $this->getTransitionsTable($transitionFactory, $this->getSubConfig($name, static::CONFIG_KEY_TRANSITIONS, $config));
+            $eventDispatcher   = $this->getEventDispatcher();
+            $eventFactory      = $this->getEventFactory($eventDispatcher);
+            $listenerManager   = $this->getListenerManager($container);
 
             $this->initListeners($eventDispatcher, $listenerManager, $this->getSubConfig($name, static::CONFIG_KEY_LISTENERS, $config));
 
