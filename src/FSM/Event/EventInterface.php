@@ -17,10 +17,12 @@ interface EventInterface
     const MACHINE_REFRESH_POST = 'fsm.post.refresh.machine';
     const SIGNAL_PRE           = 'fsm.pre.signal.';
     const SIGNAL_POST          = 'fsm.post.signal.';
-    const TRANSITION_PRE       = 'fsm.pre.transition.';
-    const TRANSITION_POST      = 'fsm.post.transition.';
+    const TRANSITION_PRE       = 'fsm.pre.transition';
+    const TRANSITION_POST      = 'fsm.post.transition';
     const STATE_EXIT           = 'fsm.exit.state.';
     const STATE_ENTRY          = 'fsm.entry.state.';
+
+    public function getName();
 
     /**
      * Gets machine throwing event

@@ -57,7 +57,7 @@ return [
 
             MachineFactory::CONFIG_KEY_LISTENERS    => [
                 [
-                    ListenerManager::CONFIG_KEY_EVENT       => FSM\Event\Event::MACHINE_REFRESH_POST,
+                    ListenerManager::CONFIG_KEY_EVENT       => FSM\Event\EventInterface::MACHINE_REFRESH_POST,
                     ListenerManager::CONFIG_KEY_LISTENER    => SimpleListener::class,
                 ],
             ],

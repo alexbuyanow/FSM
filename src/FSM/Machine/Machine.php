@@ -173,11 +173,11 @@ class Machine implements MachineInterface
     private function performTransition(ContextInterface $context, TransitionInterface $transition, array $params)
     {
         $this->triggerEvent(EventInterface::TRANSITION_PRE, $context, $transition, null, $params);
-        $this->triggerEvent(EventInterface::STATE_EXIT, $context, $transition, null, $params);
+        $this->triggerEvent(EventInterface::STATE_EXIT . $transition->getStateFrom()->getName(), $context, $transition, null, $params);
 
         $this->setContextState($context, $transition->getStateTo());
 
-        $this->triggerEvent(EventInterface::STATE_ENTRY, $context, $transition, null, $params);
+        $this->triggerEvent(EventInterface::STATE_ENTRY . $transition->getStateTo()->getName(), $context, $transition, null, $params);
         $this->triggerEvent(EventInterface::TRANSITION_POST, $context, $transition, null, $params);
     }
 
@@ -320,9 +320,9 @@ class Machine implements MachineInterface
             return;
         }
 
-        $this->triggerEvent(EventInterface::SIGNAL_PRE, $context, null, $signal, $params);
+        $this->triggerEvent(EventInterface::SIGNAL_PRE . $signal, $context, null, $signal, $params);
         $this->performTransition($context, $transition, $params);
-        $this->triggerEvent(EventInterface::SIGNAL_POST, $context, null, $signal, $params);
+        $this->triggerEvent(EventInterface::SIGNAL_POST . $signal, $context, null, $signal, $params);
     }
 
     /**
