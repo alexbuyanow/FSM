@@ -34,11 +34,7 @@ class GuardManager implements GuardManagerInterface
      */
     public function getGuard($name)
     {
-        try
-        {
-            $guard = $this->container->get($name);
-        }
-        catch(\InvalidArgumentException $exception)
+        if(!$guard = $this->container->has($name))
         {
             $message = sprintf(
                 '"%s" guard is not found in DI container',
@@ -46,6 +42,8 @@ class GuardManager implements GuardManagerInterface
             );
             throw new Exception\GuardNotFoundException($message);
         }
+
+        $guard = $this->container->get($name);
 
         if(!($guard instanceof GuardInterface))
         {

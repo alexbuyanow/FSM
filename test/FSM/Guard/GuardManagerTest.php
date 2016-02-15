@@ -11,6 +11,8 @@ use FSM\Container\ContainerInterface;
  */
 class GuardManagerTest extends \PHPUnit_Framework_TestCase
 {
+    private $guard_name = 'some_guard';
+
     public function testGetGuard()
     {
         $guardMock = $this->getMock(GuardInterface::class);
@@ -21,13 +23,18 @@ class GuardManagerTest extends \PHPUnit_Framework_TestCase
         );
         $containerMock
             ->expects($this->once())
+            ->method('has')
+            ->with($this->guard_name)
+            ->will($this->returnValue(true));
+        $containerMock
+            ->expects($this->once())
             ->method('get')
-            ->with('some_guard')
-            ->willReturn($guardMock);
+            ->with($this->guard_name)
+            ->will($this->returnValue($guardMock));
 
         /** @var ContainerInterface $containerMock */
         $manager = new GuardManager($containerMock);
-        $guard      = $manager->getGuard('some_guard');
+        $guard      = $manager->getGuard($this->guard_name);
 
         $this->assertInstanceOf(GuardInterface::class, $guard);
     }
@@ -42,17 +49,22 @@ class GuardManagerTest extends \PHPUnit_Framework_TestCase
         );
         $containerMock
             ->expects($this->once())
+            ->method('has')
+            ->with($this->guard_name)
+            ->will($this->returnValue(true));
+        $containerMock
+            ->expects($this->once())
             ->method('get')
-            ->with('some_guard')
-            ->willReturn($guardMock);
+            ->with($this->guard_name)
+            ->will($this->returnValue($guardMock));
 
         /** @var ContainerInterface $containerMock */
         $manager    = new GuardManager($containerMock);
 
-        $this->assertTrue(is_callable($manager->getGuardCallable('some_guard')));
+        $this->assertTrue(is_callable($manager->getGuardCallable($this->guard_name)));
     }
 
-    public function testGetGuardIsNotInDI()
+    public function testGetGuardNotFound()
     {
         $containerMock = $this->getMock(
             ContainerInterface::class,
@@ -60,15 +72,15 @@ class GuardManagerTest extends \PHPUnit_Framework_TestCase
         );
         $containerMock
             ->expects($this->once())
-            ->method('get')
-            ->with('some_guard')
-            ->willThrowException(new \InvalidArgumentException());
+            ->method('has')
+            ->with($this->anything())
+            ->will($this->returnValue(false));
 
         /** @var ContainerInterface $containerMock */
         $manager = new GuardManager($containerMock);
 
         $this->setExpectedException(Exception\GuardNotFoundException::class);
-        $manager->getGuard('some_guard');
+        $manager->getGuard($this->guard_name);
     }
 
     public function testGetGuardIsNotGuardInterface()
@@ -79,14 +91,19 @@ class GuardManagerTest extends \PHPUnit_Framework_TestCase
         );
         $containerMock
             ->expects($this->once())
+            ->method('has')
+            ->with($this->guard_name)
+            ->will($this->returnValue(true));
+        $containerMock
+            ->expects($this->once())
             ->method('get')
-            ->with('some_guard')
-            ->willReturn(new \ArrayObject());
+            ->with($this->guard_name)
+            ->will($this->returnValue($this->anything()));
 
         /** @var ContainerInterface $containerMock */
         $manager = new GuardManager($containerMock);
 
         $this->setExpectedException(Exception\InvalidGuardException::class);
-        $manager->getGuard('some_guard');
+        $manager->getGuard($this->guard_name);
     }
 }
