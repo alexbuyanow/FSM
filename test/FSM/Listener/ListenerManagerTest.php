@@ -11,6 +11,8 @@ use FSM\Container\ContainerInterface;
  */
 class ListenerManagerTest extends \PHPUnit_Framework_TestCase
 {
+    private $listener_name = 'listener';
+
     public function testGetListener()
     {
         $listenerMock = $this->getMock(ListenerInterface::class);
@@ -21,13 +23,18 @@ class ListenerManagerTest extends \PHPUnit_Framework_TestCase
         );
         $containerMock
             ->expects($this->once())
+            ->method('has')
+            ->with($this->listener_name)
+            ->will($this->returnValue(true));
+        $containerMock
+            ->expects($this->once())
             ->method('get')
-            ->with('listener')
-            ->willReturn($listenerMock);
+            ->with($this->listener_name)
+            ->will($this->returnValue($listenerMock));
 
         /** @var ContainerInterface $containerMock */
         $manager    = new ListenerManager($containerMock);
-        $listener   = $manager->getListener('listener');
+        $listener   = $manager->getListener($this->listener_name);
 
         $this->assertInstanceOf(ListenerInterface::class, $listener);
     }
@@ -42,14 +49,19 @@ class ListenerManagerTest extends \PHPUnit_Framework_TestCase
         );
         $containerMock
             ->expects($this->once())
+            ->method('has')
+            ->with($this->listener_name)
+            ->will($this->returnValue(true));
+        $containerMock
+            ->expects($this->once())
             ->method('get')
-            ->with('listener')
-            ->willReturn($listenerMock);
+            ->with($this->listener_name)
+            ->will($this->returnValue($listenerMock));
 
         /** @var ContainerInterface $containerMock */
         $manager    = new ListenerManager($containerMock);
 
-        $this->assertTrue(is_callable($manager->getListenerCallable('listener')));
+        $this->assertTrue(is_callable($manager->getListenerCallable($this->listener_name)));
     }
 
     public function testGetListenerNotFound()
@@ -60,18 +72,18 @@ class ListenerManagerTest extends \PHPUnit_Framework_TestCase
         );
         $containerMock
             ->expects($this->once())
-            ->method('get')
-            ->with('listener')
-            ->willThrowException(new \InvalidArgumentException());
+            ->method('has')
+            ->with($this->anything())
+            ->will($this->returnValue(false));
 
         /** @var ContainerInterface $containerMock */
         $manager    = new ListenerManager($containerMock);
 
         $this->setExpectedException(Exception\ListenerNotFoundException::class);
-        $manager->getListener('listener');
+        $manager->getListener($this->listener_name);
     }
 
-    public function testGetListenerNull()
+    public function testGetListenerIsNotImplementListenerInterface()
     {
         $containerMock = $this->getMock(
             ContainerInterface::class,
@@ -79,33 +91,19 @@ class ListenerManagerTest extends \PHPUnit_Framework_TestCase
         );
         $containerMock
             ->expects($this->once())
-            ->method('get')
-            ->with('listener')
-            ->willReturn(null);
-
-        /** @var ContainerInterface $containerMock */
-        $manager    = new ListenerManager($containerMock);
-
-        $this->setExpectedException(Exception\ListenerNotFoundException::class);
-        $manager->getListener('listener');
-    }
-
-    public function testGetListenerNotListener()
-    {
-        $containerMock = $this->getMock(
-            ContainerInterface::class,
-            ['get', 'has']
-        );
+            ->method('has')
+            ->with($this->listener_name)
+            ->will($this->returnValue(true));
         $containerMock
             ->expects($this->once())
             ->method('get')
-            ->with('listener')
-            ->willReturn(new \ArrayObject());
+            ->with($this->listener_name)
+            ->will($this->returnValue($this->anything()));
 
         /** @var ContainerInterface $containerMock */
         $manager    = new ListenerManager($containerMock);
 
         $this->setExpectedException(Exception\InvalidListenerException::class);
-        $manager->getListener('listener');
+        $manager->getListener($this->listener_name);
     }
 }

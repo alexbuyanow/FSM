@@ -35,11 +35,7 @@ class ListenerManager implements ListenerManagerInterface
      */
     public function getListener($name)
     {
-        try
-        {
-            $listener = $this->container->get($name);
-        }
-        catch(\InvalidArgumentException $exception)
+        if(!$this->container->has($name))
         {
             $message = sprintf(
                 '"%s" listener is not found in DI container',
@@ -48,14 +44,7 @@ class ListenerManager implements ListenerManagerInterface
             throw new Exception\ListenerNotFoundException($message);
         }
 
-        if(!$listener)
-        {
-            $message = sprintf(
-                '"%s" listener is not found in DI container',
-                $name
-            );
-            throw new Exception\ListenerNotFoundException($message);
-        }
+        $listener = $this->container->get($name);
 
         if (!($listener instanceof ListenerInterface)) {
             $message = sprintf(
