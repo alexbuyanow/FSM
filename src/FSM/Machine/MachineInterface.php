@@ -12,12 +12,11 @@ use FSM\ContextInterface;
 interface MachineInterface
 {
     /**
-     * Stricts for machine behavior
+     * Strict options for machine behavior
      */
     const STRICT_NONEXISTENT_SIGNAL              = 0x01; //Alert if undefined signal
     const STRICT_SIMULTANEOUS_SIGNAL_TRANSITIONS = 0x02; //Alert if several possible signal transitions
     const STRICT_SIMULTANEOUS_DIRECT_TRANSITIONS = 0x04; //Alert if several possible direct transitions
-
     const STRICT_NONE                            = 0x00;
     const STRICT_ALL                             = 0xFF;
 

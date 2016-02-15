@@ -16,7 +16,6 @@ class FSMLocator
 {
     const CONFIG_KEY_OPTIONS   = 'options';
     const CONFIG_KEY_MACHINES  = 'machines';
-
     const OPTIONS_KEY_RESOLVER = 'resolver';
     const OPTIONS_KEY_STRICT   = 'strict';
 
